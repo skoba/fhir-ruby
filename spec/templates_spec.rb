@@ -34,8 +34,8 @@ describe 'Fhir::TemplateFunctions' do
       "#{node.path}.txt"
     end
 
-    File.exists?("#{tmp_folder}/1.txt").should be_true
-    File.exists?("#{tmp_folder}/1.2.txt").should be_true
+    File.exist?("#{tmp_folder}/1.txt").should be_truthy
+    File.exist?("#{tmp_folder}/1.2.txt").should be_truthy
     File.open("#{tmp_folder}/1.txt").readlines.first.should == 'item: 1'
     File.open("#{tmp_folder}/1.2.txt").readlines.first.should == 'item: 1.2'
   end

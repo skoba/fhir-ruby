@@ -21,7 +21,7 @@ module Fhir
     def branches(selection, *paths, &block)
       paths.map do |path|
 	selection.branch(path)
-      end.sum
+      end.inject(:+)
     end
 
     def children(selection)

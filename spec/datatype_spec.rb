@@ -5,14 +5,30 @@ describe Fhir::Datatype do
     Fhir::Datatype.load(DATATYPES_FILE)
   end
 
-  it 'should detect simple types' do
-    Fhir::Datatype.find('integer').should be_simple
-    Fhir::Datatype.find('id').should be_simple
-    Fhir::Datatype.find('Element').should be_simple
-    Fhir::Datatype.find('QuantityCompararator').should be_simple
+  describe 'it should detect simple types' do
+    example 'integer should be simple' do
+      Fhir::Datatype.find('integer').should be_simple
+    end
 
-    Fhir::Datatype.find('Extension').should be_complex
-    Fhir::Datatype.find('Address').should be_complex
+    example 'id should be simple' do
+      Fhir::Datatype.find('id').should be_simple
+    end
+
+    example 'Element should be simple' do
+      Fhir::Datatype.find('Element').should be_simple
+    end
+
+    example 'QuantityCompararator should be simple' do
+      Fhir::Datatype.find('QuantityCompararator').should be_simple
+    end
+
+    example 'Extension should be complex' do
+      Fhir::Datatype.find('Extension').should be_complex
+    end
+
+    example 'Address should be complex' do
+      Fhir::Datatype.find('Address').should be_complex
+    end
   end
 
   it 'should parse attributes' do
