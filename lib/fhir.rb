@@ -1,7 +1,7 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__))) unless $:.include?(File.dirname(__FILE__))
 
 require 'ostruct'
-require 'active_support/core_ext'
+#require 'active_support/core_ext'
 
 module Fhir
   autoload :Cli, 'fhir/cli'

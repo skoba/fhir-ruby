@@ -1,40 +1,58 @@
 require 'spec_helper'
 
 describe Fhir::Path do
-  let(:p) { Fhir::Path }
+  let(:path) { Fhir::Path.new %w(a b c) }
+  let(:subpath) { Fhir::Path.new %w(a b c d e) }
+  let(:relative_path) {Fhir::Path.new %w(d e) }
 
-  example do
-    path = p.new(%w[a b c])
-    subpath = p.new(%w[a b c d e])
-    relative_path = p.new(%w[d e])
+  example 'path sould be concatinated by "." as string' do
+    expect(path.to_s).to eq 'a.b.c'
+  end
 
-    path.to_s.should == 'a.b.c'
+  example 'subpath is subpath of path' do
+    expect(path).to be_subpath subpath
+  end
 
-    path.subpath?(subpath).should be_true
-    path.include?(subpath).should be_true
+  example 'a.b.c.d.e is include in a.b.c' do
+    expect(path).to be_include subpath
+  end
 
-    (subpath < path).should be_true
-    (subpath > path).should be_false
+  example 'subpath is lesser than path' do
+    expect(subpath < path).to be_truthy
+  end
 
-    subpath.relative(path).should == relative_path
+  example 'subpath is not greater than path' do
+    expect(subpath > path).to be_falsey
+  end
 
-    -> {
-      path.relative(subpath).should == relative_path
-    }.should raise_error(/not subpath/)
+  example 'subpath is relative to relative_path' do
+    expect(subpath.relative path).to eq relative_path
+  end
 
-    (subpath - path).should == relative_path
+  example 'path is not relative to relative_path' do
+    expect {path.relative(subpath) == relative_path}.to raise_error
+  end
 
-    path.concat(relative_path).should == subpath
-    (path + relative_path).should == subpath
+  example 'subpath - path should be relative_path' do
+    expect(subpath - path).to eq relative_path
+  end
 
-    new_path = path.dup
-    new_path.to_a.should == path.to_a
+  example 'path cancatinated with relative_path should be subpath' do
+    expect(path.concat relative_path).to eq subpath
+  end
 
+  example 'path + relative_path should subpath' do
+    expect(path + relative_path).to eq subpath
+  end
+
+  example 'path.dup should copy path' do
+    new_path  = path.dup
+    expect(new_path.to_a).to eq path.to_a
   end
 
   it 'should initialize by both array and another path' do
     path1 = Fhir::Path.new([1, 2, 3])
     path2 = Fhir::Path.new(path1)
-    path1.should == path2
+    expect(path1).to eq path2
   end
 end

@@ -1,4 +1,4 @@
-require 'fhir'
+require_relative '../lib/fhir'
 require 'open-uri'
 
 FHIR_URI = 'http://www.hl7.org/implement/standards/fhir/profiles-resources.xml'
