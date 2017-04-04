@@ -7,27 +7,27 @@ describe Fhir::Datatype do
 
   describe 'it should detect simple types' do
     example 'integer should be simple' do
-      Fhir::Datatype.find('integer').should be_simple
+      expect(Fhir::Datatype.find('integer')).to be_simple
     end
 
     example 'id should be simple' do
-      Fhir::Datatype.find('id').should be_simple
+      expect(Fhir::Datatype.find('id')).to be_simple
     end
 
     example 'Element should be simple' do
-      Fhir::Datatype.find('Element').should be_simple
+      expect(Fhir::Datatype.find('Element')).to be_simple
     end
 
     example 'QuantityCompararator should be simple' do
-      Fhir::Datatype.find('QuantityCompararator').should be_simple
+      expect(Fhir::Datatype.find('QuantityCompararator')).to be_simple
     end
 
     example 'Extension should be complex' do
-      Fhir::Datatype.find('Extension').should be_complex
+      expect(Fhir::Datatype.find('Extension')).to be_complex
     end
 
     example 'Address should be complex' do
-      Fhir::Datatype.find('Address').should be_complex
+      expect(Fhir::Datatype.find('Address')).to be_complex
     end
   end
 
@@ -36,22 +36,22 @@ describe Fhir::Datatype do
       puts datatype.name
       if datatype.complex?
         datatype.attributes.each do |attribute|
-          attribute.type.should be_a Fhir::Datatype if attribute.type
+          expect(attribute.type).to be_a Fhir::Datatype if attribute.type
           puts "  #{attribute.name} <#{attribute.type_name}> #{attribute.min}..#{attribute.max}"
         end
       elsif datatype.simple?
-        datatype.attributes.should be_nil
+        expect(datatype.attributes).to be_nil
       end
       puts
     end
   end
 
   it 'should detect and parse enum' do
-    Fhir::Datatype.find('Address').should_not be_enum
+    expect(Fhir::Datatype.find('Address')).not_to be_enum
     datatype = Fhir::Datatype.find('ObservationStatus')
 
-    datatype.should be_enum
-    datatype.enum_values.should =~ %w[registered interim final amended cancelled withdrawn]
+    expect(datatype).to be_enum
+    expect(datatype.enum_values).to match_array(%w[registered interim final amended cancelled withdrawn])
   end
 
   it 'should do something' do

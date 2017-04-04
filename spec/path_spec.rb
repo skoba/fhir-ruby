@@ -30,7 +30,7 @@ describe Fhir::Path do
   end
 
   example 'path is not relative to relative_path' do
-    expect {path.relative(subpath) == relative_path}.to raise_error
+    expect {path.relative(subpath) == relative_path}.to raise_error RuntimeError
   end
 
   example 'subpath - path should be relative_path' do

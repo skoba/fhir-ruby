@@ -11,17 +11,17 @@ describe 'Fhir::TemplateFunctions' do
   let(:selection) { graph.selection }
 
   it 'should render template' do
-    selection
+    expect(selection
     .template { "item: <%= node.path -%>" }
-    .render
-    .should == "item: 1\nitem: 1.2"
+    .render)
+    .to eq("item: 1\nitem: 1.2")
   end
 
   it 'should render template from file' do
-    selection
+    expect(selection
     .template(path: "#{File.dirname(__FILE__)}/template.erb")
-    .render
-    .should == "item: 1\nitem: 1.2"
+    .render)
+    .to eq("item: 1\nitem: 1.2")
   end
 
   it 'should render to file' do
@@ -34,9 +34,9 @@ describe 'Fhir::TemplateFunctions' do
       "#{node.path}.txt"
     end
 
-    File.exist?("#{tmp_folder}/1.txt").should be_truthy
-    File.exist?("#{tmp_folder}/1.2.txt").should be_truthy
-    File.open("#{tmp_folder}/1.txt").readlines.first.should == 'item: 1'
-    File.open("#{tmp_folder}/1.2.txt").readlines.first.should == 'item: 1.2'
+    expect(File.exist?("#{tmp_folder}/1.txt")).to be_truthy
+    expect(File.exist?("#{tmp_folder}/1.2.txt")).to be_truthy
+    expect(File.open("#{tmp_folder}/1.txt").readlines.first).to eq('item: 1')
+    expect(File.open("#{tmp_folder}/1.2.txt").readlines.first).to eq('item: 1.2')
   end
 end

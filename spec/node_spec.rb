@@ -9,17 +9,17 @@ describe 'Fhir::Node' do
 
   example do
     graph = Object.new
-    graph.stub(:node_modules).and_return([NodeRole])
-    graph.stub(:selection).and_return([NodeRole])
+    allow(graph).to receive(:node_modules).and_return([NodeRole])
+    allow(graph).to receive(:selection).and_return([NodeRole])
 
     node = Fhir::Node.new(graph, ['a','b'], prop: 'val')
 
-    node.name.should == 'b'
-    node.path.should be_a(Fhir::Path)
+    expect(node.name).to eq('b')
+    expect(node.path).to be_a(Fhir::Path)
 
-    node.should respond_to(:children)
+    expect(node).to respond_to(:children)
 
-    node.children.should == node
+    expect(node.children).to eq(node)
   end
 end
 

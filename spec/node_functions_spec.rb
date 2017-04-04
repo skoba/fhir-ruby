@@ -16,19 +16,20 @@ describe 'NodeFunctions' do
   let(:node) { selection.select { |n| n.path.to_a == [1, 2, 3] }.to_a.first }
 
   it 'should get children' do
-    node.children.to_a.map(&:path).map(&:to_a).should =~ [[1, 2, 3, 4]]
+    expect(node.children.to_a.map(&:path).map(&:to_a)).to match_array([[1, 2, 3, 4]])
   end
 
   it 'should get parents' do
-    node.parent.path.to_a.should == [1, 2]
+    expect(node.parent.path.to_a).to eq([1, 2])
   end
 
   it 'should get ancestors' do
-    node.ancestors.to_a.map(&:path).map(&:to_a).should =~ [[1], [1, 2]]
+    expect(node.ancestors.to_a.map(&:path).map(&:to_a)).to match_array([[1], [1, 2]])
   end
 
   it 'should get descendants' do
-    node.descendants.to_a.map(&:path).map(&:to_a).should =~
+    expect(node.descendants.to_a.map(&:path).map(&:to_a)).to match_array(
     [[1, 2, 3, 4], [1, 2, 3, 4, 5]]
+    )
   end
 end

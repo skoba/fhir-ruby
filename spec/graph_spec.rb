@@ -1,19 +1,24 @@
 require 'spec_helper'
 
 describe Fhir::Graph do
-  subject {  Fhir::Graph.new(modules: Module.new, node_modules: Module.new) }
+  let(:graph) {  Fhir::Graph.new(modules: Module.new, node_modules: Module.new) }
+  let(:node) { graph.nodes.first }
 
-  it 'should add nodes' do
-    subject.add(['one', 'two', 'three'])
-    node = subject.nodes.first
-    node.should be_a(Fhir::Node)
-    node.path.should == ['one', 'two', 'three']
+  describe 'graph should add nodes' do
+    before { graph.add(['one', 'two', 'three']) }
+
+    example 'node is Fhir::node' do
+      expect(node).to be_a(Fhir::Node)
+    end
+
+    example 'node can be added nodes' do
+      expect(node.path).to eq(['one', 'two', 'three'])
+    end
   end
 
   it 'should apply rules' do
-    subject.add([42], max: 7)
-    subject.rule([42], max: -1)
-    node = subject.nodes.first
-    node.max.should == -1
+    graph.add([42], max: 7)
+    graph.rule([42], max: -1)
+    expect(node.max).to eq(-1)
   end
 end
